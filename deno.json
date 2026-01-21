@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "bundle": "deno --allow-env --allow-read --allow-write --allow-run bundle.ts"
+  },
+  "imports": {
+    "esbuild": "npm:esbuild@^0.27.2"
+  }
+}
