@@ -2,6 +2,6 @@
 import { CSV as CSVClass } from "./src/csv.ts";
 
 // deno-lint-ignore no-unused-vars
-var CSV = (function() {
-    return CSVClass
-});
+var CSV = function () {
+  return CSVClass;
+};
