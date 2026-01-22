@@ -41,13 +41,13 @@ CSV.prototype.push = function (line: string[]) {
  * @returns {string} String CSV
  */
 CSV.prototype.toString = function () {
+  var options = this.options as CSVOptions;
   var doubleStringDelimiterRegex = new RegExp(
-    this.options.stringDelimiter,
+    options.stringDelimiter,
     "g",
   );
-  var options = this.options;
 
-  return this.lines
+  return (this.lines as string[][])
     .map(function (line) {
       return line
         .map(function (column) {
