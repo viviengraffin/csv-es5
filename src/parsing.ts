@@ -54,7 +54,6 @@ function parseString(
         content.substring(index, index + options.lineDelimiter.length) ===
           options.lineDelimiter
       ) {
-        i += options.lineDelimiter.length - 1;
         break;
       }
     } else if (
