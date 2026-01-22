@@ -8,7 +8,7 @@ import type { CSVOptions } from "./types.ts";
  * @param options Options of this CSV
  * @param lines Parsed content of this CSV
  */
-function CSV(options: CSVOptions, lines: string[][]) {
+function CSV(options: CSVOptions, lines?: string[][]) {
   this.options = options;
   this.lines = lines || [];
 }
