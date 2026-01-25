@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-var
+import { generate } from "./generate.ts";
 import { parse } from "./parsing.ts";
 import type { CSVOptions } from "./types.ts";
 
@@ -41,25 +42,7 @@ CSV.prototype.push = function (line: string[]) {
  * @returns {string} String CSV
  */
 CSV.prototype.toString = function () {
-  var options = this.options as CSVOptions;
-  var doubleStringDelimiterRegex = new RegExp(
-    options.stringDelimiter,
-    "g",
-  );
-
-  return (this.lines as string[][])
-    .map(function (line) {
-      return line
-        .map(function (column) {
-          return options.stringDelimiter +
-            column.replace(
-              doubleStringDelimiterRegex,
-              options.stringDelimiter + options.stringDelimiter,
-            ) + options.stringDelimiter;
-        })
-        .join(options.columnDelimiter);
-    })
-    .join(options.lineDelimiter);
+  return generate(this.options, this.lines);
 };
 
 export { CSV };

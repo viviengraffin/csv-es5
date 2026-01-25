@@ -55,6 +55,13 @@ function parseString(
           options.lineDelimiter
       ) {
         break;
+      } else if (
+        content.substring(index, index + 2) ===
+          options.stringDelimiter + options.stringDelimiter
+      ) {
+        res += options.stringDelimiter;
+        i += 2;
+        continue;
       }
     } else if (
       startWithStringDelimiter && content[index] === options.stringDelimiter
@@ -64,14 +71,6 @@ function parseString(
       continue;
     }
 
-    if (
-      content.substring(index, index + 2) ===
-        options.stringDelimiter + options.stringDelimiter
-    ) {
-      res += options.stringDelimiter;
-      i += 2;
-      continue;
-    }
     i++;
     res += content[index];
   }
