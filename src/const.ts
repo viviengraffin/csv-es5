@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-var
-export var stringDemimiterRegex = {
+export var stringDelimiterRegex = {
   '"': new RegExp('"', "g"),
   "'": new RegExp("'", "g"),
 };
