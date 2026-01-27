@@ -1,4 +1,4 @@
-import { stringDelimiterRegex } from "./const.ts";
+import { STRING_DELIMITER_REGEX } from "./const.ts";
 import { CSVOptions } from "./types.ts";
 
 export function generate(options: CSVOptions, lines: string[][]): string {
@@ -25,7 +25,7 @@ function generateColumn(options: CSVOptions, column: string): string {
   ) {
     return options.stringDelimiter +
       column.replace(
-        stringDelimiterRegex[options.stringDelimiter],
+        STRING_DELIMITER_REGEX[options.stringDelimiter],
         options.stringDelimiter + options.stringDelimiter,
       ) + options.stringDelimiter;
   } else {
