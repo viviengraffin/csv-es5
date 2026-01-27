@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-var
 import { generate } from "./generate.ts";
 import { parse } from "./parsing.ts";
 import type { CSVOptions } from "./types.ts";
@@ -22,8 +21,7 @@ function CSV(options: CSVOptions, lines?: string[][]) {
  * @returns CSV Instance
  */
 CSV.parse = function (options: CSVOptions, content: string) {
-  var parsed = parse(options, content);
-  return new CSV(options, parsed);
+  return new CSV(options, parse(options, content));
 };
 
 /**
