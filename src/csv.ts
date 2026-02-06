@@ -25,7 +25,7 @@ CSV.parse = function (
   content: string,
   writerOptions?: CSVOptions,
 ) {
-  return new CSV(options, parse(writerOptions || options, content));
+  return new CSV(writerOptions || options, parse(options, content));
 };
 
 /**
