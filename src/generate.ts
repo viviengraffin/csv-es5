@@ -1,5 +1,5 @@
 import { STRING_DELIMITER_REGEX } from "./const.ts";
-import { CSVOptions } from "./types.ts";
+import { CSVColumn, CSVOptions } from "./types.ts";
 
 export function generate(options: CSVOptions, lines: string[][]): string {
   return lines
@@ -17,7 +17,7 @@ function generateLine(options: CSVOptions, line: string[]): string {
     .join(options.columnDelimiter);
 }
 
-function generateColumn(options: CSVOptions, column: string): string {
+function generateStringColumn(options: CSVOptions, column: string): string {
   if (
     column.indexOf(options.columnDelimiter) !== -1 ||
     column.indexOf(options.lineDelimiter) !== -1 ||
@@ -30,5 +30,31 @@ function generateColumn(options: CSVOptions, column: string): string {
       ) + options.stringDelimiter;
   } else {
     return column;
+  }
+}
+
+function generateNumberColumn(options: CSVOptions, column: number): string {
+  return options.floatDelimiter === "."
+    ? column.toString()
+    : column.toString().replace(".", options.floatDelimiter);
+}
+
+function generateBooleanColumn(column: boolean): string {
+  return column ? "true" : "false";
+}
+
+function generateColumn(options: CSVOptions, column: CSVColumn): string {
+  switch (typeof column) {
+    case "string":
+      return generateStringColumn(options, column);
+    case "number":
+      return generateNumberColumn(options, column);
+    case "boolean":
+      return generateBooleanColumn(column);
+    default:
+      throw new Error(
+        "TypeError: string, number or boolean awaited \n" +
+          JSON.stringify(column),
+      );
   }
 }

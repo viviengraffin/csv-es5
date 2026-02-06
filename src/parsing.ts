@@ -1,9 +1,10 @@
 // deno-lint-ignore-file no-var
-import { CSVOptions, ParsingResult } from "./types.ts";
+import { NUMBER_REGEX } from "./const.ts";
+import { CSVColumn, CSVLine, CSVOptions, ParsingResult } from "./types.ts";
 
-export function parse(options: CSVOptions, content: string): string[][] {
-  var res: string[][] = [];
-  var line: string[] = [];
+export function parse(options: CSVOptions, content: string): CSVLine[] {
+  var res: CSVLine[] = [];
+  var line: CSVLine = [];
   var i = 0;
   var r = undefined;
 
@@ -16,9 +17,9 @@ export function parse(options: CSVOptions, content: string): string[][] {
       line = [];
       i += options.lineDelimiter.length;
     } else {
-      r = parseString(options, content, i);
+      r = parseColumn(options, content, i);
       i = r.endPosition;
-      line.push(r.content);
+      line.push(parseColumnContent(options, r.content));
     }
   }
 
@@ -29,7 +30,7 @@ export function parse(options: CSVOptions, content: string): string[][] {
   return res;
 }
 
-function parseString(
+function parseColumn(
   options: CSVOptions,
   content: string,
   startPosition: number,
@@ -55,14 +56,15 @@ function parseString(
           options.lineDelimiter
       ) {
         break;
-      } else if (
-        content.substring(index, index + 2) ===
-          options.stringDelimiter + options.stringDelimiter
-      ) {
-        res += options.stringDelimiter;
-        i += 2;
-        continue;
       }
+    } else if (
+      startWithStringDelimiter &&
+      content.substring(index, index + 2) ===
+        options.stringDelimiter + options.stringDelimiter
+    ) {
+      res += options.stringDelimiter;
+      i += 2;
+      continue;
     } else if (
       startWithStringDelimiter && content[index] === options.stringDelimiter
     ) {
@@ -79,4 +81,18 @@ function parseString(
     endPosition: startPosition + i,
     content: res,
   };
+}
+
+function parseColumnContent(options: CSVOptions, content: string): CSVColumn {
+  if (content === "true" || content === "false") {
+    return content === "true";
+  } else if (NUMBER_REGEX[options.floatDelimiter].test(content)) {
+    return Number(
+      options.floatDelimiter === "."
+        ? content
+        : content.replace(options.floatDelimiter, "."),
+    );
+  } else {
+    return content;
+  }
 }

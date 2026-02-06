@@ -1,5 +1,10 @@
 // deno-lint-ignore-file no-var
 export var STRING_DELIMITER_REGEX = {
-  '"': new RegExp('"', "g"),
-  "'": new RegExp("'", "g"),
+  '"': /"/g,
+  "'": /'/g,
+};
+
+export var NUMBER_REGEX = {
+  ".": /^[+-]?([0-9]*[.])?[0-9]+$/,
+  ",": /^[+-]?([0-9]*[,])?[0-9]+$/,
 };
