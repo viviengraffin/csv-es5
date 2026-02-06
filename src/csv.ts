@@ -35,7 +35,7 @@ CSV.parse = function (
  * @returns Lines number of this CSV Instance
  */
 CSV.prototype.push = function (line: CSVLine) {
-  return this.lines.push(line);
+  return (this.lines as CSVLine[]).push(line);
 };
 
 /**
