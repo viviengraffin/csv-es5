@@ -3,6 +3,7 @@ export type CSVOptions = {
   lineDelimiter: "\n" | "\r\n";
   stringDelimiter: "'" | '"';
   floatDelimiter: "." | ",";
+  bom?: boolean;
 };
 
 export type ParsingResult = {
@@ -13,3 +14,5 @@ export type ParsingResult = {
 export type CSVColumn = string | number | boolean;
 
 export type CSVLine = CSVColumn[];
+
+export type FilledCSVOptions = Required<CSVOptions>;

@@ -1,8 +1,17 @@
 // deno-lint-ignore-file no-var
-import { NUMBER_REGEX } from "./const.ts";
-import { CSVColumn, CSVLine, CSVOptions, ParsingResult } from "./types.ts";
+import { BYTE_ORDER_MARK, NUMBER_REGEX } from "./const.ts";
+import {
+  CSVColumn,
+  CSVLine,
+  FilledCSVOptions,
+  ParsingResult,
+} from "./types.ts";
 
-export function parse(options: CSVOptions, content: string): CSVLine[] {
+export function parse(options: FilledCSVOptions, content: string): CSVLine[] {
+  if (content[0] && content[0] === BYTE_ORDER_MARK) {
+    content = content.substring(1);
+  }
+
   var res: CSVLine[] = [];
   var line: CSVLine = [];
   var i = 0;
@@ -31,7 +40,7 @@ export function parse(options: CSVOptions, content: string): CSVLine[] {
 }
 
 function parseColumn(
-  options: CSVOptions,
+  options: FilledCSVOptions,
   content: string,
   startPosition: number,
 ): ParsingResult {
@@ -83,7 +92,10 @@ function parseColumn(
   };
 }
 
-function parseColumnContent(options: CSVOptions, content: string): CSVColumn {
+function parseColumnContent(
+  options: FilledCSVOptions,
+  content: string,
+): CSVColumn {
   if (content === "true" || content === "false") {
     return content === "true";
   } else if (NUMBER_REGEX[options.floatDelimiter].test(content)) {

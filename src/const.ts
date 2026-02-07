@@ -8,3 +8,5 @@ export var NUMBER_REGEX = {
   ".": /^[+-]?([0-9]*[.])?[0-9]+$/,
   ",": /^[+-]?([0-9]*[,])?[0-9]+$/,
 };
+
+export var BYTE_ORDER_MARK = "\ufeff";

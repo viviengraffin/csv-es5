@@ -1,6 +1,7 @@
 import { generate } from "./generate.ts";
 import { parse } from "./parsing.ts";
 import type { CSVLine, CSVOptions } from "./types.ts";
+import { fillCSVOptions } from "./utils.ts";
 
 /**
  * Create a CSV Instance
@@ -9,7 +10,7 @@ import type { CSVLine, CSVOptions } from "./types.ts";
  * @param lines Parsed content of this CSV
  */
 function CSV(options: CSVOptions, lines?: CSVLine[]) {
-  this.options = options;
+  this.options = fillCSVOptions(options);
   this.lines = lines || [];
 }
 
@@ -25,7 +26,10 @@ CSV.parse = function (
   content: string,
   writerOptions?: CSVOptions,
 ) {
-  return new CSV(writerOptions || options, parse(options, content));
+  return new CSV(
+    writerOptions || options,
+    parse(fillCSVOptions(options), content),
+  );
 };
 
 /**
